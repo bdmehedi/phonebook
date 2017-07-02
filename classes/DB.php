@@ -19,7 +19,7 @@ class DB
         }
     }
 
-    public function getInstance(){
+    public static function getInstance(){
         if (!isset(self::$_instance)){
             self::$_instance = new DB();
         }
@@ -68,6 +68,7 @@ class DB
                 }
             }
         }
+
         return false;
     }
 

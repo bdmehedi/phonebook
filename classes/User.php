@@ -50,7 +50,7 @@ class User
     public function find($user = null)
     {
         if ($user){
-            $field = (is_numeric($user)) ? 'id' : 'username';
+            $field = (is_numeric($user)) ? 'id' : 'user_name';
             $data = $this->_db->get('users', array($field, '=', $user));
 
             if ($data->count()){
@@ -69,21 +69,21 @@ class User
             $user = $this->find($username);
 
             if ($user){
-                if ($this->data()->password == Hash::make($password, $this->data()->salt)){
+                if ($this->data()->password == Hash::make($password)){
                     Session::put($this->_sessionName, $this->data()->id);
 
                     if ($remember){
-                        $hash = Hash::unique();
-                        $hashCheck = $this->_db->get('users_session', array('user_id', '=', $this->data()->id));
-
-                        if (!$hashCheck->count()){
-                            $this->_db->insert('users_session', array(
-                                'user_id' => $this->data()->id,
-                                'hash' => $hash
-                            ));
-                        }else{
-                            $hash = $hashCheck->firstResult()->hash;
-                        }
+//                        $hash = Hash::unique();
+//                        $hashCheck = $this->_db->get('users_session', array('user_id', '=', $this->data()->id));
+//
+//                        if (!$hashCheck->count()){
+//                            $this->_db->insert('users_session', array(
+//                                'user_id' => $this->data()->id,
+//                                'hash' => $hash
+//                            ));
+//                        }else{
+//                            $hash = $hashCheck->firstResult()->hash;
+//                        }
 
                         Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expity'));
                     }
@@ -117,7 +117,7 @@ class User
 
     public function logout()
     {
-        $this->_db->delete('users_session', array('user_id', '=', $this->data()->id));
+        //$this->_db->delete('users_session', array('user_id', '=', $this->data()->id));
 
         Session::delete($this->_sessionName);
         Cookie::delete($this->_cookieName);

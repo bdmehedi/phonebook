@@ -84,15 +84,15 @@ if (Input::exists()) {
         <h1 class="text-center login-title login_welcome">IGL Phone Book App</h1>
 
         <?php
-            if (isset($validate)){
-                foreach ($validate->errors() as $error){
-                    echo "<p style='color: red; text-align: center'>$error</p>";
-                }
+        if (isset($validate)){
+            foreach ($validate->errors() as $error){
+                echo "<p style='color: red; text-align: center'>$error</p>";
             }
-            if (Session::exists('home')){
-                echo "<p style='color: royalblue; text-align: center'>" . Session::get('home') ."</p>";
-                Session::delete('home');
-            }
+        }
+        if (Session::exists('home')){
+            echo "<p style='color: royalblue; text-align: center'>" . Session::get('home') ."</p>";
+            Session::delete('home');
+        }
         ?>
 
         <div class="col-sm-6 col-md-4 col-md-offset-4">
@@ -123,7 +123,7 @@ if (Input::exists()) {
                         <input name="password" type="password" class="form-control" placeholder="Password"  autocomplete="none">
                     </div>
 
-                    <input type="hidden" name="group_id" value="2">
+                    <input type="hidden" name="group_id" value="1">
                     <input type="hidden" name="token" value="<?php echo Token::generate() ?>">
 
                     <button id="submit_btn" style="margin-top: 10px;" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
