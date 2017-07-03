@@ -82,6 +82,31 @@ class DB
         return false;
     }
 
+    public function getAllWithSql($sql)
+    {
+        if (!$this->query($sql)->error()) {
+            return $this;
+        }
+
+        return $sql;
+    }
+
+    public function getJoin_2_TableData($tableToJoin, $tableWithJoin, $where, $joinValue1 = null, $joinValue2 = null)
+    {
+        $tableToJoin_s = $tableToJoin.'s';
+        $tableWithJoin_s = $tableWithJoin.'s';
+        $joinValue1 = $joinValue1 ? $tableToJoin_s.'.'.$joinValue1 : $tableToJoin_s.'.'.$tableWithJoin.'_id';
+        $joinValue2 = $joinValue2 ? $tableWithJoin_s.'.'.$joinValue2 : $tableWithJoin_s.'.'.'id';
+
+        $sql = "SELECT * FROM {$tableToJoin_s} JOIN {$tableWithJoin_s} ON {$joinValue1} = {$joinValue2} WHERE $where";
+        if (!$this->query($sql)->error()) {
+            return $this;
+        }
+
+        return $sql;
+    }
+
+
     public function get($table, $where)
     {
         return $this->action('SELECT *', $table, $where);

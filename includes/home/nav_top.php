@@ -6,7 +6,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="home.php">Root admin</a>
+        <a class="navbar-brand" href="home.php"><?php echo Permission::is('admin') ? 'Root admin' : 'User'?></a>
     </div>
     <div  style="color: white;
 padding: 15px 50px 5px 50px;

@@ -4,26 +4,36 @@ $user = new User();
 if (!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
+// this page just for admin.........
+if (!Permission::is('admin')){
+    Redirect::to('home.php');
+}
 
 if (Input::exists()){
     if (Token::check(Input::get('token'))){
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
-            'mobile' => array('required' => true),
-            'added_by' => array('required' => true),
+            'category_name' => array('required' => true),
         ));
 
         if ($validate->passed()){
             $db = DB::getInstance();
             try{
-                 $insert_category = $db->insert('categories', array('name' => Input::get('name')));
+                $category = '"'.Input::get('category_name').'"';
+                // unique check.....
+                $sql = "SELECT * FROM `categories` WHERE category_name = {$category}";
+                $categoryData = $db->getAllWithSql($sql);
+                if ($categoryData->count()){
+                    throw new Exception('Opps, Category already exist !');
+                }
+                 $insert_category = $db->insert('categories', array('category_name' => Input::get('category_name')));
                 if ($insert_category){
                     Session::flash('home', 'Category successfully added !');
                 }else {
                     throw new Exception('Something going wrong !');
                 }
             }catch (Exception $e){
-                die($e->getMessage());
+                $errors = $e->getMessage();
             }
         }else{
             foreach ($validate->errors() as $error) {
@@ -61,6 +71,9 @@ require_once "includes/home/header.php";
                                 if (isset($token_error)){
                                     echo "<p style='color: red'>Token not match</p>";
                                 }
+                                if (isset($errors)){
+                                    echo "<p style='color: red'>$errors</p>";
+                                }
                                 if (Session::exists('home')){
                                     echo "<p style='color: green'>". Session::get('home') ."</p>";
                                     Session::delete('home');
@@ -69,7 +82,7 @@ require_once "includes/home/header.php";
                             <div class="form-group">
                                 <label class="" for="name">Category Name</label>
                                 <div class="">
-                                    <input class="form-control" type="text" name="name" id="name" placeholder="Category Name">
+                                    <input class="form-control" type="text" name="category_name" id="name" placeholder="Category Name">
                                 </div>
                             </div>
                             <input type="hidden" name="token" value="<?php echo Token::generate();?>">

@@ -4,47 +4,43 @@ $user = new User();
 if (!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
-
 $db = DB::getInstance();
 $categoryData = $db->getAll('categories');
 $categories = $db->results();
-// echo "<pre>";
-// var_dump($db->results());exit();
-
-if (Input::exists()){
-    if (Token::check(Input::get('token'))){
-        var_dump($_POST);exit();
-        $validate = new Validate();
-        $validation = $validate->check($_POST, array(
-            'mobile' => array('required' => true),
-            'category' => array('required' => true),
-        ));
-
-        if ($validate->passed()){
-            var_dump($_POST);exit();
-            $db = DB::getInstance();
-            try{
-                $insert_mobile = $db->insert('numbers', array(
-                        'number' => Input::get('mobile'),
-                        'category_id' => Input::get('cetegory')
-                    ));
-                if ($insert_mobile){
-                    Session::flash('home', 'Mobile successfully added !');
-                }else {
-                    throw new Exception('Something going wrong !');
-                }
-            }catch (Exception $e){
-                die($e->getMessage());
-            }
-        }else{
-//            foreach ($validate->errors() as $error) {
-//                echo $error . '<br>';
+//if (Input::exists()){
+//    if (Token::check(Input::get('token'))){
+//        var_dump($_POST);exit();
+//        $validate = new Validate();
+//        $validation = $validate->check($_POST, array(
+//            'mobile' => array('required' => true),
+//            'category' => array('required' => true),
+//        ));
+//
+//        if ($validate->passed()){
+//            var_dump($_POST);exit();
+//            $db = DB::getInstance();
+//            try{
+//                $insert_mobile = $db->insert('numbers', array(
+//                        'number' => Input::get('mobile'),
+//                        'category_id' => Input::get('cetegory')
+//                    ));
+//                if ($insert_mobile){
+//                    Session::flash('home', 'Mobile successfully added !');
+//                }else {
+//                    throw new Exception('Something going wrong !');
+//                }
+//            }catch (Exception $e){
+//                die($e->getMessage());
 //            }
-        }
-    }else {
-        
-    }
-}
+//        }else{
+////            foreach ($validate->errors() as $error) {
+////                echo $error . '<br>';
+////            }
+//        }
+//    }else {
+//
+//    }
+//}
 
 require_once "includes/home/header.php";
 ?>
@@ -70,10 +66,10 @@ require_once "includes/home/header.php";
                         Session::delete('home');
                     }
                 ?>
+                <p id="success_message" style="display: none; color: #8702A8"></p>
             </div>
             <div class="panel-body">
-                <form name="validate" action="add_mobile.php" method="post">
-
+                <form id="add_number" name="validate" action="add_mobile.php" method="post">
 
                     <div class="row">
                         <!-- Button trigger modal -->
@@ -95,10 +91,10 @@ require_once "includes/home/header.php";
                                         <div class="form-group">
                                             <label class="" for="category_id">Select Category <span class="star">*</span></label>
                                             <select style="width: 78% !important;" name="category_id" id="category" class="form-control">
-                                                <?php 
+                                                <?php
                                                     foreach ($categories as $category) {
                                                         ?>
-                                                        <option value="<?php echo $category->id; ?>"><?php echo $category->name; ?></option>
+                                                        <option value="<?php echo $category->id; ?>"><?php echo $category->category_name; ?></option>
                                                         <?php 
                                                     }
                                                 ?>
@@ -126,7 +122,7 @@ require_once "includes/home/header.php";
                                     <div class="form-group">
                                         <label>Category</label>
                                         <p class="form-control" id="show_category"></p>
-                                        <input type="hidden" class="form-control" id="category" name="category">
+                                        <input type="hidden" class="form-control" id="category_id" name="category">
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +134,8 @@ require_once "includes/home/header.php";
                                     <input id="add_mobile" name="mobile" type="text" class="form-control" placeholder="Phone" autocomplete="none">
                                 </div>
                             </div>
-                            <input type="hidden" name="token" value="<?php echo Token::generate();?>">
+                            <input type="hidden" id="token" name="token" value="<?php echo Token::generate();?>">
+                            <input type="hidden" id="added_by" name="added_by" value="<?php echo Session::get('user') ? Session::get('user') : '';?>">
                         </div>
                     </div>
                     <hr>
