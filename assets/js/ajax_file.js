@@ -113,7 +113,8 @@ $(document).ready(function () {
     $('#category_btn').on('click', function () {
         $('#success_div').fadeOut();
         $('#error_div').fadeOut();
-        var category_id = $('#category_id').val();
+        var category_id = $('#category').val();
+        var category = $('#category').html();
 
         // $.ajax({
         //     url: 'get/subjects',
@@ -129,7 +130,7 @@ $(document).ready(function () {
         // });
 
         $('#category_block').fadeIn(300);
-        $('#show_category').html();
+        $('#show_category').html(category);
         $('#category').val(category_id);
         $('#submit').prop('disabled', false);
 

@@ -72,6 +72,16 @@ class DB
         return false;
     }
 
+    public function getAll($table)
+    {
+        $sql = "SELECT * FROM {$table}";
+        if (!$this->query($sql)->error()) {
+            return $this;
+        }
+
+        return false;
+    }
+
     public function get($table, $where)
     {
         return $this->action('SELECT *', $table, $where);

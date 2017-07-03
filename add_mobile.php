@@ -6,20 +6,28 @@ if (!$user->isLoggedIn()){
 }
 
 $db = DB::getInstance();
-$categoryData = $db->get('categories', array());
-var_dump($categoryData);exit();
+$categoryData = $db->getAll('categories');
+$categories = $db->results();
+// echo "<pre>";
+// var_dump($db->results());exit();
 
 if (Input::exists()){
     if (Token::check(Input::get('token'))){
+        var_dump($_POST);exit();
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
             'mobile' => array('required' => true),
+            'category' => array('required' => true),
         ));
 
         if ($validate->passed()){
+            var_dump($_POST);exit();
             $db = DB::getInstance();
             try{
-                $insert_mobile = $db->insert('numbers', array('number' => Input::get('mobile')));
+                $insert_mobile = $db->insert('numbers', array(
+                        'number' => Input::get('mobile'),
+                        'category_id' => Input::get('cetegory')
+                    ));
                 if ($insert_mobile){
                     Session::flash('home', 'Mobile successfully added !');
                 }else {
@@ -34,7 +42,7 @@ if (Input::exists()){
 //            }
         }
     }else {
-        $token_error = true;
+        
     }
 }
 
@@ -50,6 +58,18 @@ require_once "includes/home/header.php";
         <div class="panel col-sm-12" style="margin-top: 15px; margin-bottom: 15px;">
             <div class="page-header">
                 <h1 class="text-center text-temp">Add Mobile Number</h1>
+                <?php 
+                    if (isset($validate)){
+                        foreach ($validate->errors() as $error) {
+                            echo "<p style='color: red; text-align: center; padding-top: 5px; margin-bottom: 7px'>*$error</p>";
+                        }
+                    }
+
+                    if (Session::exists('home')){
+                        echo "<p style='color: green'>". Session::get('home') ."</p>";
+                        Session::delete('home');
+                    }
+                ?>
             </div>
             <div class="panel-body">
                 <form name="validate" action="add_mobile.php" method="post">
@@ -75,7 +95,13 @@ require_once "includes/home/header.php";
                                         <div class="form-group">
                                             <label class="" for="category_id">Select Category <span class="star">*</span></label>
                                             <select style="width: 78% !important;" name="category_id" id="category" class="form-control">
-
+                                                <?php 
+                                                    foreach ($categories as $category) {
+                                                        ?>
+                                                        <option value="<?php echo $category->id; ?>"><?php echo $category->name; ?></option>
+                                                        <?php 
+                                                    }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
@@ -94,20 +120,6 @@ require_once "includes/home/header.php";
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <?php
-                            if (isset($validate)){
-                                foreach ($validate->errors() as $error) {
-                                    echo "<p style='color: red'>$error</p>";
-                                }
-                            }
-                            if (isset($token_error)){
-                                echo "<p style='color: red'>Token not match</p>";
-                            }
-                            if (Session::exists('home')){
-                                echo "<p style='color: green'>". Session::get('home') ."</p>";
-                                Session::delete('home');
-                            }
-                            ?>
 
                             <div class="row" style="display: none" id="category_block">
                                 <div class="col-sm-12">
