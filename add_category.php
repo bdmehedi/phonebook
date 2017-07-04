@@ -9,6 +9,12 @@ if (!Permission::is('admin')){
     Redirect::to('home.php');
 }
 
+// get all category.....
+$db = DB::getInstance();
+$sql = "SELECT * FROM categories ORDER BY categories.category_name ASC";
+$categoryData = $db->getAllWithSql($sql);
+$categories = $categoryData->results();
+
 if (Input::exists()){
     if (Token::check(Input::get('token'))){
         $validate = new Validate();
@@ -26,7 +32,7 @@ if (Input::exists()){
                 if ($categoryData->count()){
                     throw new Exception('Opps, Category already exist !');
                 }
-                 $insert_category = $db->insert('categories', array('category_name' => Input::get('category_name')));
+                 $insert_category = $db->insert('categories', array('category_name' => Input::get('category_name'), 'created_at' => date('Y-m-d H:m:s')));
                 if ($insert_category){
                     Session::flash('home', 'Category successfully added !');
                 }else {
@@ -100,6 +106,25 @@ require_once "includes/home/header.php";
                     </div>
 
                 </form>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <table style="border: 1px" class="table table-bordered table-responsive table-hover table-striped">
+                            <tr>
+                                <th>Category Name</th>
+                            </tr>
+                            <!--                    for category wise.........-->
+                            <?php if (isset($categories)){
+                                $serial = 1;
+                                foreach ($categories as $category){
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $category->category_name;?></td>
+                                    </tr>
+                                    <?php $serial++; }} ?>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /. PAGE INNER  -->

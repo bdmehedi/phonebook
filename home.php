@@ -30,11 +30,11 @@ if (!$user->isLoggedIn()){
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="panel panel-back noti-box">
                             <span class="icon-box bg-color-red set-icon">
-                                <i class="fa fa-envelope-o"></i>
+                                <i class="fa fa-phone"></i>
+
                             </span>
                                 <div class="text-box" >
-                                    <p class="main-text">120 New</p>
-                                    <p class="text-muted">Messages</p>
+                                    <p class="main-text">Your total numbers <span><?php echo Report::getTotalNumber() ?></span></p>
                                 </div>
                             </div>
                         </div>

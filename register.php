@@ -42,6 +42,7 @@ if (Input::exists()) {
                     'password' => Hash::make(Input::get('password')),
                     'name' => Input::get('name'),
                     'group_id' => Input::get('group_id'),
+                    'created_at' => date('Y-m-d H:m:s'),
                 ));
 
                 Session::flash('home', 'User successfully registered !');

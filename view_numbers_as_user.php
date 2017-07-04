@@ -11,7 +11,8 @@ if (!Permission::is('user')){
 
 $db = DB::getInstance();
 // get All category...
-$categoryData = $db->getAll('categories');
+$sql = "SELECT * FROM categories ORDER BY categories.category_name ASC";
+$categoryData = $db->getAllWithSql($sql);
 if ($categoryData->count()){
     $categories = $categoryData->results();
 }
@@ -19,6 +20,13 @@ if ($categoryData->count()){
 // get all numbers as category wise.......
 if (isset($_REQUEST['category'])){
     $category_id = $_REQUEST['category'];
+
+    $sql = "SELECT * FROM categories WHERE id = $category_id";
+    $single_category_data = $db->getAllWithSql($sql);
+    if ($single_category_data->count()){
+        $single_category = $single_category_data->firstResult();
+    }
+
     $user_id = Session::get(Config::get('session/session_name'));
     $mobile_data = $db->getAllWithSql("SELECT * FROM numbers JOIN categories ON numbers.category_id = categories.id WHERE numbers.category_id = {$category_id} AND numbers.added_by = {$user_id}");
     if ($mobile_data->count()){
@@ -58,6 +66,20 @@ require_once "includes/home/header.php";
                     </select>
                 </div>
             </div>
+
+            <div class="col-sm-4 col-sm-offset-4">
+                <h3 style="text-align: center;">
+                    <?php
+                    echo isset($_REQUEST['category']) ? 'Category :' : '';
+                    ?>
+                    <span>
+                        <?php
+                        echo isset($single_category)? $single_category->category_name : '';
+                        ?>
+                    </span>
+                </h3>
+            </div>
+
             <div class="panel-body">
                 <table style="border: 1px" class="table table-bordered table-responsive table-hover table-striped">
                     <tr>

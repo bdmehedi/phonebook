@@ -4,43 +4,12 @@ $user = new User();
 if (!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
+
 $db = DB::getInstance();
-$categoryData = $db->getAll('categories');
-$categories = $db->results();
-//if (Input::exists()){
-//    if (Token::check(Input::get('token'))){
-//        var_dump($_POST);exit();
-//        $validate = new Validate();
-//        $validation = $validate->check($_POST, array(
-//            'mobile' => array('required' => true),
-//            'category' => array('required' => true),
-//        ));
-//
-//        if ($validate->passed()){
-//            var_dump($_POST);exit();
-//            $db = DB::getInstance();
-//            try{
-//                $insert_mobile = $db->insert('numbers', array(
-//                        'number' => Input::get('mobile'),
-//                        'category_id' => Input::get('cetegory')
-//                    ));
-//                if ($insert_mobile){
-//                    Session::flash('home', 'Mobile successfully added !');
-//                }else {
-//                    throw new Exception('Something going wrong !');
-//                }
-//            }catch (Exception $e){
-//                die($e->getMessage());
-//            }
-//        }else{
-////            foreach ($validate->errors() as $error) {
-////                echo $error . '<br>';
-////            }
-//        }
-//    }else {
-//
-//    }
-//}
+$sql = "SELECT * FROM categories ORDER BY categories.category_name ASC";
+$categoryData = $db->getAllWithSql($sql);
+$categories = $categoryData->results();
+
 
 require_once "includes/home/header.php";
 ?>
@@ -73,11 +42,18 @@ require_once "includes/home/header.php";
 
                     <div class="row">
                         <!-- Button trigger modal -->
-                        <div class="col-sm-8">
+                        <div class="col-sm-4">
                             <button style="margin-bottom: 15px;" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                                 Select Category
                             </button>
                         </div>
+                        <div class="col-sm-4">
+                            <p>My total numbers : <span id="total"> <?php echo Report::getTotalNumber() ?></span></p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p>My today numbers : <span id="today"> <?php echo Report::getTotalTodayNumber() ?></span></p>
+                        </div>
+
                         <!-- Modal -->
                         <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
@@ -131,7 +107,7 @@ require_once "includes/home/header.php";
                                 <p id="error_mobile" style="display: none; color: red;"></p>
                                 <label for="mobile">Phone</label> <span style="display: none; color: green" id="mobile_valid" class="glyphicon glyphicon-ok"></span> <span style="display: none; color: red" id="mobile_not_valid">Not valid</span>
                                 <div class="">
-                                    <input id="add_mobile" name="mobile" type="text" class="form-control" placeholder="Phone" autocomplete="none">
+                                    <input id="add_mobile" name="mobile" type="number" class="form-control" placeholder="Phone" autocomplete="none">
                                 </div>
                             </div>
                             <input type="hidden" id="token" name="token" value="<?php echo Token::generate();?>">

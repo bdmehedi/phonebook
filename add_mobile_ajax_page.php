@@ -2,8 +2,10 @@
 //header('Content-type: text/javascript');
 require_once "core/init.php";
 $jsonData = array(
-    'success' => false,
-    'result' => ''
+    'success' => 0,
+    'result' => '',
+    'total' => 0,
+    'today' => 0,
 );
 if (Input::exists()){
     if (Input::get('token')){
@@ -26,9 +28,12 @@ if (Input::exists()){
                     'category_id' => Input::get('category'),
                     'number' => Input::get('mobile'),
                     'added_by' => Input::get('added_by'),
+                    'created_at' => date('Y-m-d H:m:s'),
                 ));
                 if ($insert_mobile){
                     $jsonData['result'] = 'Number successfully added !';
+                    $jsonData['total'] = Report::getTotalNumber();
+                    $jsonData['today'] = Report::getTotalTodayNumber();
                     $jsonData['success'] = true;
                 }else {
                     $jsonData['result'] = 'Opps, Something going wrong !';

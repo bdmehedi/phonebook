@@ -11,12 +11,14 @@ if (!Permission::is('admin')){
 
 $db = DB::getInstance();
 // get All category...
-$categoryData = $db->getAll('categories');
+$sql = "SELECT * FROM categories ORDER BY categories.category_name ASC";
+$categoryData = $db->getAllWithSql($sql);
 if ($categoryData->count()){
     $categories = $categoryData->results();
 }
 // get All users.....
-$usersData = $db->getAll('users');
+$sql = "SELECT * FROM users ORDER BY users.name ASC";
+$usersData = $db->getAllWithSql($sql);
 if ($usersData->count()){
     $users = $usersData->results();
 }
@@ -24,6 +26,11 @@ if ($usersData->count()){
 // get all numbers as category wise.......
 if (isset($_REQUEST['category'])){
     $category_id = $_REQUEST['category'];
+    $sql = "SELECT * FROM categories WHERE id = $category_id";
+    $single_category_data = $db->getAllWithSql($sql);
+    if ($single_category_data->count()){
+        $single_category = $single_category_data->firstResult();
+    }
     $mobile_data = $db->getJoin_2_TableData('number', 'user',  'numbers.category_id = '.$category_id, 'added_by');
     if ($mobile_data->count()){
         $numbers_category_wise = $mobile_data->results();
@@ -35,6 +42,13 @@ if (isset($_REQUEST['category'])){
 // get All numbers as user wise..
 if (isset($_REQUEST['user'])){
     $id = $_REQUEST['user'];
+
+    $sql = "SELECT * FROM users WHERE id = $id";
+    $single_user_data = $db->getAllWithSql($sql);
+    if ($single_user_data->count()){
+        $single_user = $single_user_data->firstResult();
+    }
+
     $mobile_data = $db->getJoin_2_TableData('number', 'categorie',  'numbers.added_by = '.$id, 'category_id');
 //    var_dump($mobile_data);ext();
     if ($mobile_data->count()){
@@ -91,6 +105,21 @@ require_once "includes/home/header.php";
                         ?>
                     </select>
                 </div>
+            </div>
+
+            <div class="col-sm-4 col-sm-offset-4">
+                <h3 style="text-align: center;">
+                    <?php
+                    echo isset($_REQUEST['category']) ? 'Category :' : '';
+                    echo isset($_REQUEST['user']) ? 'User :' : ''
+                    ?>
+                    <span>
+                        <?php
+                        echo isset($single_category)? $single_category->category_name : '';
+                        echo isset($single_user)? $single_user->name : '';
+                        ?>
+                    </span>
+                </h3>
             </div>
 
             <div class="panel-body">

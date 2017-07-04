@@ -1,7 +1,7 @@
 <nav class="navbar-default navbar-side" role="navigation">
     <div class="sidebar-collapse" >
         <ul class="nav" id="main-menu" style="">
-            <li class="text-center">
+            <li class="text-center hidden-xs hidden-sm">
                 <img src="assets/home/img/igl-logo.png" class="user-image img-responsive"/>
             </li>
 

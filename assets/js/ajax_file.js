@@ -146,13 +146,23 @@ $(document).ready(function () {
            dataType : 'json',
            data : {'mobile' : number, 'category' : category_id, 'token' : token, 'added_by': added_by },
            'success' : function (data) {
-               console.log(data);
+               //console.log(data);
                $('#success_message').fadeIn();
                $('#success_message').text(data.result);
                $('#success_message').fadeOut(5000);
                if (data.success){
                    $("input[name~='mobile']").val(' ');
                    $('#mobile_valid').fadeOut();
+                   $('#total').text(data.total);
+                   $('#today').text(data.today);
+               }
+               if (data.total){
+                   console.log(data.total);
+
+               }
+               if (data.today){
+
+                   console.log(data.today);
                }
            }
        });
