@@ -31,8 +31,6 @@ if (isset($_REQUEST['category'])){
     $mobile_data = $db->getAllWithSql("SELECT * FROM numbers JOIN categories ON numbers.category_id = categories.id WHERE numbers.category_id = {$category_id} AND numbers.added_by = {$user_id}");
     if ($mobile_data->count()){
         $numbers_category_wise = $mobile_data->results();
-//        echo "<pre>";
-//        var_dump($numbers);
     }
 }
 
@@ -67,7 +65,7 @@ require_once "includes/home/header.php";
                 </div>
             </div>
 
-            <div class="col-sm-4 col-sm-offset-4">
+            <div class="col-sm-12">
                 <h3 style="text-align: center;">
                     <?php
                     echo isset($_REQUEST['category']) ? 'Category :' : '';

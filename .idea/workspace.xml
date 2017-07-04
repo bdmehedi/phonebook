@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b75e59d0-9b16-4108-bd51-6de6fe4a0303" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/Report.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_category.php" afterPath="$PROJECT_DIR$/add_category.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_mobile.php" afterPath="$PROJECT_DIR$/add_mobile.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_mobile_ajax_page.php" afterPath="$PROJECT_DIR$/add_mobile_ajax_page.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/js/ajax_file.js" afterPath="$PROJECT_DIR$/assets/js/ajax_file.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/home.php" afterPath="$PROJECT_DIR$/home.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/home/header.php" afterPath="$PROJECT_DIR$/includes/home/header.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/home/nav_side.php" afterPath="$PROJECT_DIR$/includes/home/nav_side.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/home/nav_top.php" afterPath="$PROJECT_DIR$/includes/home/nav_top.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/register.php" afterPath="$PROJECT_DIR$/register.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view_numbers.php" afterPath="$PROJECT_DIR$/view_numbers.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view_numbers_as_user.php" afterPath="$PROJECT_DIR$/view_numbers_as_user.php" />
     </list>
@@ -49,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="add_category.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="add_category.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/add_category.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="121" column="79" lean-forward="false" selection-start-line="121" selection-start-column="79" selection-end-line="121" selection-end-column="79" />
+            <state relative-caret-position="-152">
+              <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
               <folding>
                 <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <marker date="1499151847631" expanded="true" signature="275:337" ph="SELECT * FRO... categories" />
@@ -85,14 +75,31 @@
       <file leaf-file-name="view_numbers.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/view_numbers.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+            <state relative-caret-position="76">
+              <caret line="110" column="48" lean-forward="true" selection-start-line="110" selection-start-column="48" selection-end-line="110" selection-end-column="48" />
               <folding>
-                <marker date="1499142935278" expanded="true" signature="273:335" ph="SELECT * FRO... categories" />
-                <marker date="1499142935278" expanded="true" signature="485:528" ph="SELECT * FRO... categories" />
-                <marker date="1499142935278" expanded="true" signature="767:802" ph="SELECT * FRO... categories" />
-                <marker date="1499142935278" expanded="true" signature="767:803" ph="SELECT * FRO... categories" />
-                <marker date="1499142935278" expanded="true" signature="1359:1390" ph="SELECT * FRO... users" />
+                <marker date="1499159410900" expanded="true" signature="273:335" ph="SELECT * FRO... categories" />
+                <marker date="1499159410900" expanded="true" signature="485:528" ph="SELECT * FRO... categories" />
+                <marker date="1499159410900" expanded="true" signature="767:802" ph="SELECT * FRO... categories" />
+                <marker date="1499159410900" expanded="true" signature="767:803" ph="SELECT * FRO... categories" />
+                <marker date="1499159410900" expanded="true" signature="1359:1390" ph="SELECT * FRO... users" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="view_numbers_as_user.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/view_numbers_as_user.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2515">
+              <caret line="32" column="57" lean-forward="false" selection-start-line="32" selection-start-column="57" selection-end-line="32" selection-end-column="57" />
+              <folding>
+                <marker date="1499159535387" expanded="true" signature="272:334" ph="SELECT * FRO... categories" />
+                <marker date="1499159535387" expanded="true" signature="588:624" ph="SELECT * FRO... categories" />
+                <marker date="1499159535387" expanded="true" signature="911:1016" ph="SELECT * FRO... numbers" />
+                <marker date="1499159535387" expanded="true" signature="911:1030" ph="SELECT * FRO... numbers" />
+                <marker date="1499159535387" expanded="true" signature="911:1054" ph="SELECT * FRO... numbers" />
+                <marker date="1499159535387" expanded="true" signature="911:1064" ph="SELECT * FRO... numbers" />
               </folding>
             </state>
           </provider>
@@ -151,7 +158,6 @@
         <option value="$PROJECT_DIR$/view_users.php" />
         <option value="$PROJECT_DIR$/classes/DB.php" />
         <option value="$PROJECT_DIR$/register_test.php" />
-        <option value="$PROJECT_DIR$/view_numbers_as_user.php" />
         <option value="$PROJECT_DIR$/includes/home/header.php" />
         <option value="$PROJECT_DIR$/register.php" />
         <option value="$PROJECT_DIR$/classes/ShowReport.php" />
@@ -162,8 +168,9 @@
         <option value="$PROJECT_DIR$/home.php" />
         <option value="$PROJECT_DIR$/includes/home/nav_side.php" />
         <option value="$PROJECT_DIR$/includes/home/nav_top.php" />
-        <option value="$PROJECT_DIR$/view_numbers.php" />
         <option value="$PROJECT_DIR$/add_category.php" />
+        <option value="$PROJECT_DIR$/view_numbers.php" />
+        <option value="$PROJECT_DIR$/view_numbers_as_user.php" />
       </list>
     </option>
   </component>
@@ -314,12 +321,12 @@
       <workItem from="1498967910094" duration="31534000" />
       <workItem from="1499055477819" duration="15237000" />
       <workItem from="1499074133458" duration="10947000" />
-      <workItem from="1499141013221" duration="10373000" />
+      <workItem from="1499141013221" duration="13212000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72838000" />
+    <option name="totallyTimeSpent" value="75677000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="0" />
@@ -434,11 +441,11 @@
         <state relative-caret-position="646">
           <caret line="17" column="10" lean-forward="true" selection-start-line="17" selection-start-column="10" selection-end-line="18" selection-end-column="29" />
           <folding>
-            <marker date="1499142935278" expanded="true" signature="273:335" ph="SELECT * FRO... categories" />
-            <marker date="1499142935278" expanded="true" signature="485:528" ph="SELECT * FRO... categories" />
-            <marker date="1499142935278" expanded="true" signature="767:802" ph="SELECT * FRO... categories" />
-            <marker date="1499142935278" expanded="true" signature="767:803" ph="SELECT * FRO... categories" />
-            <marker date="1499142935278" expanded="true" signature="1359:1390" ph="SELECT * FRO... users" />
+            <marker date="1499159410900" expanded="true" signature="273:335" ph="SELECT * FRO... categories" />
+            <marker date="1499159410900" expanded="true" signature="485:528" ph="SELECT * FRO... categories" />
+            <marker date="1499159410900" expanded="true" signature="767:802" ph="SELECT * FRO... categories" />
+            <marker date="1499159410900" expanded="true" signature="767:803" ph="SELECT * FRO... categories" />
+            <marker date="1499159410900" expanded="true" signature="1359:1390" ph="SELECT * FRO... users" />
           </folding>
         </state>
       </provider>
@@ -670,22 +677,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view_numbers_as_user.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="14" column="41" lean-forward="false" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
-          <folding>
-            <element signature="n#style#0;n#h3#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="false" />
-            <marker date="1499142967160" expanded="true" signature="272:334" ph="SELECT * FRO... categories" />
-            <marker date="1499142967160" expanded="true" signature="588:624" ph="SELECT * FRO... categories" />
-            <marker date="1499142967160" expanded="true" signature="911:1016" ph="SELECT * FRO... numbers" />
-            <marker date="1499142967160" expanded="true" signature="911:1030" ph="SELECT * FRO... numbers" />
-            <marker date="1499142967160" expanded="true" signature="911:1054" ph="SELECT * FRO... numbers" />
-            <marker date="1499142967160" expanded="true" signature="911:1064" ph="SELECT * FRO... numbers" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/includes/home/header.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -805,24 +796,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view_numbers.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-          <folding>
-            <marker date="1499142935278" expanded="true" signature="273:335" ph="SELECT * FRO... categories" />
-            <marker date="1499142935278" expanded="true" signature="485:528" ph="SELECT * FRO... categories" />
-            <marker date="1499142935278" expanded="true" signature="767:802" ph="SELECT * FRO... categories" />
-            <marker date="1499142935278" expanded="true" signature="767:803" ph="SELECT * FRO... categories" />
-            <marker date="1499142935278" expanded="true" signature="1359:1390" ph="SELECT * FRO... users" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/add_category.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="121" column="79" lean-forward="false" selection-start-line="121" selection-start-column="79" selection-end-line="121" selection-end-column="79" />
+        <state relative-caret-position="-152">
+          <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
           <folding>
             <element signature="n#style#0;n#table#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <marker date="1499151847631" expanded="true" signature="275:337" ph="SELECT * FRO... categories" />
@@ -832,6 +809,35 @@
             <marker date="1499151847631" expanded="true" signature="2860:2870" ph="..." />
             <marker date="1499151847631" expanded="true" signature="3033:3043" ph="..." />
             <marker date="1499151847631" expanded="true" signature="3207:3219" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view_numbers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="110" column="48" lean-forward="true" selection-start-line="110" selection-start-column="48" selection-end-line="110" selection-end-column="48" />
+          <folding>
+            <marker date="1499159410900" expanded="true" signature="273:335" ph="SELECT * FRO... categories" />
+            <marker date="1499159410900" expanded="true" signature="485:528" ph="SELECT * FRO... categories" />
+            <marker date="1499159410900" expanded="true" signature="767:802" ph="SELECT * FRO... categories" />
+            <marker date="1499159410900" expanded="true" signature="767:803" ph="SELECT * FRO... categories" />
+            <marker date="1499159410900" expanded="true" signature="1359:1390" ph="SELECT * FRO... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view_numbers_as_user.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2515">
+          <caret line="32" column="57" lean-forward="false" selection-start-line="32" selection-start-column="57" selection-end-line="32" selection-end-column="57" />
+          <folding>
+            <marker date="1499159535387" expanded="true" signature="272:334" ph="SELECT * FRO... categories" />
+            <marker date="1499159535387" expanded="true" signature="588:624" ph="SELECT * FRO... categories" />
+            <marker date="1499159535387" expanded="true" signature="911:1016" ph="SELECT * FRO... numbers" />
+            <marker date="1499159535387" expanded="true" signature="911:1030" ph="SELECT * FRO... numbers" />
+            <marker date="1499159535387" expanded="true" signature="911:1054" ph="SELECT * FRO... numbers" />
+            <marker date="1499159535387" expanded="true" signature="911:1064" ph="SELECT * FRO... numbers" />
           </folding>
         </state>
       </provider>
