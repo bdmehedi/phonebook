@@ -65,6 +65,10 @@ require_once "includes/home/header.php";
                 </div>
             </div>
 
+            <div class="col-sm-4">
+                <p>My total numbers : <span id="total"> <?php echo Report::getTotalNumber() ?></span></p>
+            </div>
+
             <div class="col-sm-12">
                 <h3 style="text-align: center;">
                     <?php

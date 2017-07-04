@@ -24,6 +24,15 @@ class Report
         return $totalData->firstResult()->total;
     }
 
+    public static function getTotalNumberOfSystem()
+    {
+        new Report();
+        //$user = self::$_usrId;
+        $sql = "SELECT COUNT(number)as total FROM numbers";
+        $totalData = self::$_db->getAllWithSql($sql);
+        return $totalData->firstResult()->total;
+    }
+
     public static function getTotalTodayNumber()
     {
         new Report();

@@ -25,22 +25,22 @@ if (!$user->isLoggedIn()){
             <!-- /. ROW  -->
             <hr />
             <div class="row">
-                <?php if (Permission::is('user')) {?>
+                <?php if (1) {?>
                     <a href="add_mobile.php">
-                        <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="col-md-4 col-sm-8 col-xs-12">
                             <div class="panel panel-back noti-box">
                             <span class="icon-box bg-color-red set-icon">
                                 <i class="fa fa-phone"></i>
 
                             </span>
                                 <div class="text-box" >
-                                    <p class="main-text">Your total numbers <span><?php echo Report::getTotalNumber() ?></span></p>
+                                    <p class="main-text"> <span><?php echo Permission::is('user')? 'Your total numbers '.Report::getTotalNumber() : 'Total Number of System '. Report::getTotalNumberOfSystem() ?></span></p>
                                 </div>
                             </div>
                         </div>
                     </a>
                 <?php }?>
-                <?php if (!Permission::is('user')){ ?>
+                <?php if (0){ ?>
                     <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="panel panel-back noti-box">
                 <span class="icon-box bg-color-green set-icon">
