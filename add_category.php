@@ -111,7 +111,9 @@ require_once "includes/home/header.php";
                     <div class="col-sm-6">
                         <table style="border: 1px" class="table table-bordered table-responsive table-hover table-striped">
                             <tr>
+                                <th>Serial</th>
                                 <th>Category Name</th>
+                                <th>Total Numbers</th>
                             </tr>
                             <!--                    for category wise.........-->
                             <?php if (isset($categories)){
@@ -119,9 +121,16 @@ require_once "includes/home/header.php";
                                 foreach ($categories as $category){
                                     ?>
                                     <tr>
+                                        <td><?php echo $serial;?></td>
                                         <td><?php echo $category->category_name;?></td>
+                                        <td><?php echo Report::getTotalNumberAmount('number', 'category_id = '.$category->id);?></td>
                                     </tr>
                                     <?php $serial++; }} ?>
+                            <tr>
+                                <td></td>
+                                <th></th>
+                                <td>Total =  <?php echo Report::getTotalNumberAmount('number')?></td>
+                            </tr>
                         </table>
                     </div>
                 </div>

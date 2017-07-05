@@ -91,14 +91,15 @@ class DB
         return $sql;
     }
 
-    public function getJoin_2_TableData($tableToJoin, $tableWithJoin, $where, $joinValue1 = null, $joinValue2 = null)
+    public function getJoin_2_TableData($tableToJoin, $tableWithJoin, $where, $joinValue1 = null, $joinValue2 = null, $order = null)
     {
         $tableToJoin_s = $tableToJoin.'s';
         $tableWithJoin_s = $tableWithJoin.'s';
         $joinValue1 = $joinValue1 ? $tableToJoin_s.'.'.$joinValue1 : $tableToJoin_s.'.'.$tableWithJoin.'_id';
         $joinValue2 = $joinValue2 ? $tableWithJoin_s.'.'.$joinValue2 : $tableWithJoin_s.'.'.'id';
+        $order = $order ? $order : '';
 
-        $sql = "SELECT * FROM {$tableToJoin_s} JOIN {$tableWithJoin_s} ON {$joinValue1} = {$joinValue2} WHERE $where";
+        $sql = "SELECT * FROM {$tableToJoin_s} JOIN {$tableWithJoin_s} ON {$joinValue1} = {$joinValue2} WHERE $where $order";
         if (!$this->query($sql)->error()) {
             return $this;
         }

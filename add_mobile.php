@@ -10,6 +10,14 @@ $sql = "SELECT * FROM categories ORDER BY categories.category_name ASC";
 $categoryData = $db->getAllWithSql($sql);
 $categories = $categoryData->results();
 
+// get All users.....
+$today = "'".date('Y-m-d')."%'";
+$sql = "SELECT COUNT(numbers.number)as total, users.name, numbers.number FROM numbers JOIN users ON numbers.added_by = users.id WHERE numbers.created_at LIKE '2017-07-04%'";
+$usersData = $db->getAllWithSql($sql);
+if ($usersData->count()){
+    $users = $usersData->results();
+}
+
 
 require_once "includes/home/header.php";
 ?>
@@ -126,6 +134,30 @@ require_once "includes/home/header.php";
                     </div>
 
                 </form>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <table style="border: 1px" class="table table-bordered table-responsive table-hover table-striped">
+                            <tr>
+                                <th>Rank</th>
+                                <th>User's Name</th>
+                                <th>Today added</th>
+                            </tr>
+                            <!--                    for category wise.........-->
+                            <?php if (isset($users)){
+                                $serial = 1;
+                                foreach ($users as $user){
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $serial;?></td>
+                                        <td><?php echo $user->name;?></td>
+                                        <td></td>
+                                    </tr>
+                                    <?php $serial++; }} ?>
+
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /. PAGE INNER  -->

@@ -31,11 +31,9 @@ if (isset($_REQUEST['category'])){
     if ($single_category_data->count()){
         $single_category = $single_category_data->firstResult();
     }
-    $mobile_data = $db->getJoin_2_TableData('number', 'user',  'numbers.category_id = '.$category_id, 'added_by');
+    $mobile_data = $db->getJoin_2_TableData('number', 'user',  'numbers.category_id = '.$category_id, 'added_by', null, 'ORDER BY numbers.id DESC');
     if ($mobile_data->count()){
         $numbers_category_wise = $mobile_data->results();
-//        echo "<pre>";
-//        var_dump($numbers);
     }
 }
 
@@ -49,14 +47,22 @@ if (isset($_REQUEST['user'])){
         $single_user = $single_user_data->firstResult();
     }
 
-    $mobile_data = $db->getJoin_2_TableData('number', 'categorie',  'numbers.added_by = '.$id, 'category_id');
-//    var_dump($mobile_data);ext();
+    $mobile_data = $db->getJoin_2_TableData('number', 'categorie',  'numbers.added_by = '.$id, 'category_id', null, 'ORDER BY numbers.id DESC');
     if ($mobile_data->count()){
         $numbers_user_wise = $mobile_data->results();
-//        echo "<pre>";
-//        var_dump($numbers);
     }
 }
+
+// get all numbers .........
+if (isset($_GET['all'])){
+    $sql = "SELECT * FROM `numbers` JOIN users ON numbers.added_by = users.id JOIN categories ON numbers.category_id = categories.id ORDER BY numbers.id DESC ";
+    $all_numbers_data = $db->getAllWithSql($sql);
+    if ($all_numbers_data->count()){
+        $numbers = $all_numbers_data->results();
+    }
+}
+
+
 
 require_once "includes/home/header.php";
 ?>
@@ -70,6 +76,7 @@ require_once "includes/home/header.php";
         <div class="panel col-sm-12" style="margin-top: 15px; margin-bottom: 15px;">
             <div class="page-header">
                 <h1 class="text-center text-temp">View numbers</h1>
+                <a href="view_numbers.php?all=1" name="all" class="btn btn-primary">View All</a>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
@@ -98,7 +105,7 @@ require_once "includes/home/header.php";
                         if (isset($users)){
                             foreach ($users as $user){
                                 ?>
-                                <option value='view_numbers.php?user=<?php echo $user->id;?>'><?php echo $user->user_name;?></option>
+                                <option value='view_numbers.php?user=<?php echo $user->id;?>'><?php echo $user->user_name. ' ('. $user->name. ') ';?></option>
                                 <?php
                             }
                         }
@@ -128,6 +135,7 @@ require_once "includes/home/header.php";
                         <th>Serial</th>
                         <th>Numbers</th>
                         <th><?php echo isset($numbers_category_wise) ? 'Added By' : 'Category' ?></th>
+                        <?php echo isset($numbers) ? '<th>Added By</th>' : '' ?>
                     </tr>
 <!--                    for category wise.........-->
                     <?php if (isset($numbers_category_wise)){
@@ -153,6 +161,19 @@ require_once "includes/home/header.php";
                                 <td><?php echo $number->category_name;?></td>
                             </tr>
                     <?php $serial++; }} ?>
+
+<!--                    for all numbers view -->
+                    <?php if (isset($numbers)){
+                        $serial = 1;
+                        foreach ($numbers as $number){
+                            ?>
+                            <tr>
+                                <td><?php echo $serial;?></td>
+                                <td><?php echo $number->number;?></td>
+                                <td><?php echo $number->category_name;?></td>
+                                <td><?php echo $number->name;?></td>
+                            </tr>
+                            <?php $serial++; }} ?>
                 </table>
                 <span class="col-sm-2 col-sm-offset-10"></span>
             </div>

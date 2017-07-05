@@ -34,7 +34,7 @@ if (!$user->isLoggedIn()){
 
                             </span>
                                 <div class="text-box" >
-                                    <p class="main-text"> <span><?php echo Permission::is('user')? 'Your total numbers '.Report::getTotalNumber() : 'Total Number of System '. Report::getTotalNumberOfSystem() ?></span></p>
+                                    <p class="main-text"> <span><?php echo Permission::is('user')? 'Your total numbers '.Report::getTotalNumber() : 'Total Number of System '. Report::getTotalNumberAmount('number') ?></span></p>
                                 </div>
                             </div>
                         </div>

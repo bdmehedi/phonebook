@@ -24,13 +24,18 @@ class Report
         return $totalData->firstResult()->total;
     }
 
-    public static function getTotalNumberOfSystem()
+    public static function getTotalNumberAmount($count = null, $where = null)
     {
         new Report();
-        //$user = self::$_usrId;
-        $sql = "SELECT COUNT(number)as total FROM numbers";
+        $where = $where ? $where : '';
+        $count = $count ? $count: '';
+        $where = $where ? "WHERE {$where}" : '';
+        $sql = "SELECT COUNT({$count})as total FROM numbers {$where}";
         $totalData = self::$_db->getAllWithSql($sql);
-        return $totalData->firstResult()->total;
+        if (gettype($totalData) != 'string'){
+            return $totalData->firstResult()->total;
+        }
+        return false;
     }
 
     public static function getTotalTodayNumber()
@@ -42,4 +47,5 @@ class Report
         $totalData = self::$_db->getAllWithSql($sql);
         return $totalData->firstResult()->total;
     }
+
 }
