@@ -82,6 +82,30 @@ class DB
         return false;
     }
 
+    public function getAllWithPagination($table, $page = null, $perPage = null, $where = null)
+    {
+        $page = $page ? $page : 1;
+        $perPage = $perPage && $perPage <= 50 ? $perPage : 20;
+        $start = ($page > 1) ? ($page * $perPage) - $perPage : 0;
+        $where = $where ? "WHERE {$where}" : '';
+        $sql = "SELECT * FROM (SELECT * FROM {$table} LIMIT {$start}, {$perPage}) {$table} $where";
+        if (!$this->query($sql)->error()) {
+            return $this;
+        }
+
+        return $sql;
+    }
+
+    public function getPages($table, $count = null)
+    {
+        $count = $count ? "COUNT({$count})" : '*';
+        $sql = "SELECT $count as total FROM {$table}";
+        if (!$this->query($sql)->error()) {
+            return $this->firstResult()->total;
+        }
+        return false;
+    }
+
     public function getAllWithSql($sql)
     {
         if (!$this->query($sql)->error()) {

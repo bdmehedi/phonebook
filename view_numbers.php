@@ -4,6 +4,7 @@ $user = new User();
 if (!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
+
 // this page just for admin.........
 if (!Permission::is('admin')){
     Redirect::to('home.php');
@@ -31,10 +32,19 @@ if (isset($_REQUEST['category'])){
     if ($single_category_data->count()){
         $single_category = $single_category_data->firstResult();
     }
-    $mobile_data = $db->getJoin_2_TableData('number', 'user',  'numbers.category_id = '.$category_id, 'added_by', null, 'ORDER BY numbers.id DESC');
+
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $perPage = isset($_GET['per_page']) && $_GET['per_page'] <= 50 ? (int)$_GET['per_page'] : 20;
+    $start = ($page > 1) ? ($page * $perPage) - $perPage : 0;
+
+    $sql = "SELECT * FROM (SELECT * FROM numbers LIMIT {$start}, {$perPage}) `numbers` JOIN users ON numbers.added_by = users.id WHERE numbers.category_id = {$category_id} ORDER BY numbers.id DESC ";
+    $mobile_data = $db->getAllWithSql($sql);
+//    $mobile_data = $db->getJoin_2_TableData('number', 'user',  'numbers.category_id = '.$category_id, 'added_by', null, 'ORDER BY numbers.id DESC');
     if ($mobile_data->count()){
         $numbers_category_wise = $mobile_data->results();
     }
+    //get all page for numbers.
+    $pages = ceil($db->getPages('numbers', 'number') / $perPage);
 }
 
 // get All numbers as user wise..
@@ -47,19 +57,34 @@ if (isset($_REQUEST['user'])){
         $single_user = $single_user_data->firstResult();
     }
 
-    $mobile_data = $db->getJoin_2_TableData('number', 'categorie',  'numbers.added_by = '.$id, 'category_id', null, 'ORDER BY numbers.id DESC');
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $perPage = isset($_GET['per_page']) && $_GET['per_page'] <= 50 ? (int)$_GET['per_page'] : 20;
+    $start = ($page > 1) ? ($page * $perPage) - $perPage : 0;
+
+    $sql = "SELECT * FROM (SELECT * FROM numbers LIMIT {$start}, {$perPage}) `numbers` JOIN categories ON numbers.category_id = categories.id WHERE numbers.added_by = {$id} ORDER BY numbers.id DESC ";
+    $mobile_data = $db->getAllWithSql($sql);
+
+//    $mobile_data = $db->getJoin_2_TableData('number', 'categorie',  'numbers.added_by = '.$id, 'category_id', null, 'ORDER BY numbers.id DESC');
     if ($mobile_data->count()){
         $numbers_user_wise = $mobile_data->results();
     }
+    //get all page for numbers.
+    $pages = ceil($db->getPages('numbers', 'number') / $perPage);
 }
 
 // get all numbers .........
 if (isset($_GET['all'])){
-    $sql = "SELECT * FROM `numbers` JOIN users ON numbers.added_by = users.id JOIN categories ON numbers.category_id = categories.id ORDER BY numbers.id DESC ";
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $perPage = isset($_GET['per_page']) && $_GET['per_page'] <= 50 ? (int)$_GET['per_page'] : 20;
+    $start = ($page > 1) ? ($page * $perPage) - $perPage : 0;
+
+    $sql = "SELECT * FROM (SELECT * FROM numbers LIMIT {$start}, {$perPage}) `numbers` JOIN users ON numbers.added_by = users.id JOIN categories ON numbers.category_id = categories.id ORDER BY numbers.id DESC ";
     $all_numbers_data = $db->getAllWithSql($sql);
     if ($all_numbers_data->count()){
         $numbers = $all_numbers_data->results();
     }
+    //get all page for numbers.
+    $pages = ceil($db->getPages('numbers', 'number') / $perPage);
 }
 
 
@@ -76,7 +101,7 @@ require_once "includes/home/header.php";
         <div class="panel col-sm-12" style="margin-top: 15px; margin-bottom: 15px;">
             <div class="page-header">
                 <h1 class="text-center text-temp">View numbers</h1>
-                <a href="view_numbers.php?all=1" name="all" class="btn btn-primary">View All</a>
+                <a href="view_numbers.php?all=1&page=1&per_page=50" name="all" class="btn btn-primary">View All</a>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
@@ -174,8 +199,13 @@ require_once "includes/home/header.php";
                                 <td><?php echo $number->name;?></td>
                             </tr>
                             <?php $serial++; }} ?>
+
                 </table>
-                <span class="col-sm-2 col-sm-offset-10"></span>
+                <div class="col-md-12" style="text-align: right">
+                    <?php for ($page = 1; $page <= $pages; $page++){ ?>
+                        <a href="<?php echo isset($_GET['all']) ? '?all='.$_GET['all'] : '' ?>&page=1&per_page=20"><?php echo $page.' '?></a>&nbsp;
+                    <?php }?>
+                </div>
             </div>
         </div>
         <!-- /. PAGE INNER  -->

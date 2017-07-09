@@ -15,6 +15,7 @@ class Report
         }
     }
 
+    // for total numbers for specific user.
     public static function getTotalNumber()
     {
         new Report();
@@ -24,6 +25,7 @@ class Report
         return $totalData->firstResult()->total;
     }
 
+    // get row count for numbers table....
     public static function getTotalNumberAmount($count = null, $where = null)
     {
         new Report();
@@ -38,10 +40,12 @@ class Report
         return false;
     }
 
-    public static function getTotalTodayNumber()
+
+    // get today added numbers for specific user.....
+    public static function getTotalTodayNumber($user = null)
     {
         new Report();
-        $user = self::$_usrId;
+        $user = $user ? $user : self::$_usrId;
         $today = "'".date('Y-m-d')."%'";
         $sql = "SELECT COUNT(number) as total FROM numbers where added_by = {$user} AND created_at LIKE {$today}";
         $totalData = self::$_db->getAllWithSql($sql);

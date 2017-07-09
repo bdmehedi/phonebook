@@ -12,7 +12,12 @@ $categories = $categoryData->results();
 
 // get All users.....
 $today = "'".date('Y-m-d')."%'";
-$sql = "SELECT COUNT(numbers.number)as total, users.name, numbers.number FROM numbers JOIN users ON numbers.added_by = users.id WHERE numbers.created_at LIKE '2017-07-04%'";
+$sql = "SELECT users.id, users.name, COUNT(numbers.number) as total
+        FROM numbers JOIN users ON numbers.added_by = users.id
+        WHERE numbers.created_at LIKE $today
+        GROUP BY users.name
+        ORDER BY COUNT(numbers.number) DESC";
+
 $usersData = $db->getAllWithSql($sql);
 if ($usersData->count()){
     $users = $usersData->results();
@@ -151,7 +156,7 @@ require_once "includes/home/header.php";
                                     <tr>
                                         <td><?php echo $serial;?></td>
                                         <td><?php echo $user->name;?></td>
-                                        <td></td>
+                                        <td><?php echo $user->total?></td>
                                     </tr>
                                     <?php $serial++; }} ?>
 
