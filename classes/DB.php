@@ -96,10 +96,11 @@ class DB
         return $sql;
     }
 
-    public function getPages($table, $count = null)
+    public function getPages($table, $count = null, $where = null)
     {
         $count = $count ? "COUNT({$count})" : '*';
-        $sql = "SELECT $count as total FROM {$table}";
+        $where = $where ? 'WHERE '.$where : '';
+        $sql = "SELECT $count as total FROM {$table} {$where}";
         if (!$this->query($sql)->error()) {
             return $this->firstResult()->total;
         }

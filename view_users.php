@@ -9,18 +9,26 @@ if (!Permission::is('admin')){
     Redirect::to('home.php');
 }
 
+// show maximum page number ....
+$max_page = 20;
+
 $db = DB::getInstance();
-// get All category...
-$categoryData = $db->getAll('categories');
-if ($categoryData->count()){
-    $categories = $categoryData->results();
-}
 // get All users.....
-$usersData = $db->getAll('users');
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$perPage = isset($_GET['per_page']) && $_GET['per_page'] <= 20 ? (int)$_GET['per_page'] : 20;
+$start = ($page > 1) ? ($page * $perPage) - $perPage : 0;
+
+$usersData = $db->getAllWithSql("SELECT * FROM users ORDER BY users.id DESC LIMIT {$start}, {$perPage}");
 if ($usersData->count()){
     $users = $usersData->results();
 }
+//$usersData = $db->getAll('users');
+//if ($usersData->count()){
+//    $users = $usersData->results();
+//}
 
+//get all page for numbers.
+$pages = ceil($db->getPages('users', 'user_name') / $perPage);
 
 require_once "includes/home/header.php";
 ?>
@@ -42,9 +50,10 @@ require_once "includes/home/header.php";
                         <th>User Name</th>
                         <th>Name</th>
                         <th>Mobile</th>
+                        <th>Added</th>
                     </tr>
                     <?php if (isset($users)){
-                        $serial = 1;
+                        $serial = ($_GET['page'] > 1) ? ((int)$_GET['page'] * (int)$_GET['per_page']) - ((int)$_GET['per_page'] - 1) : 1;
                         foreach ($users as $user){
                     ?>
                             <tr>
@@ -52,10 +61,59 @@ require_once "includes/home/header.php";
                                 <td><?php echo $user->user_name;?></td>
                                 <td><?php echo $user->name;?></td>
                                 <td><?php echo $user->mobile;?></td>
+                                <td><?php echo Report::getTotalNumber($user->id);?></td>
                             </tr>
                     <?php $serial++; }} ?>
                 </table>
-                <span class="col-sm-2 col-sm-offset-10"></span>
+                <div class="col-md-12" style="text-align: right">
+                    <?php
+                    if (isset($pages)) {
+                        if ($pages > $max_page && $_GET['page'] > 1) {
+                            $previous_page = $_GET['page'] > 1 ? $_GET['page'] : '';
+                            ?>
+                            <a
+                                    href="?page=<?php echo --$previous_page; ?>&per_page=20">Previous
+                            </a>&nbsp;
+                            <?php
+                        }
+
+                        for ($page = 1; $page <= $pages; $page++) {
+                            if ($pages == 1) {
+                                break;
+                            }
+                            if ($pages < $max_page) {
+                                ?>
+                                <a
+                                    <?php echo $page == $_GET['page'] ? 'class="selected"' : '' ?>
+                                        href="?page=<?php echo $page ?>&per_page=20"><?php echo $page . ' ' ?>
+                                </a>&nbsp;
+                                <?php
+                            }
+
+                            if ($pages > $max_page) {
+                                if ($page > 10 && $page != $pages && $page != $pages - 1) {
+                                    continue;
+                                }
+                                if ($page == $pages - 1)
+                                    echo '....';
+                                ?>
+                                <a
+                                    <?php echo $page == $_GET['page'] ? 'class="selected"' : '' ?>
+                                        href="?page=<?php echo $page ?>&per_page=20"><?php echo $page . ' ' ?>
+                                </a>&nbsp;
+                                <?php
+                            }
+                        }
+                        if ($pages > $max_page && $_GET['page'] < $pages) {
+                            ?>
+                            <a
+                                    href="?page=<?php echo isset($_GET['page']) ? ++$_GET['page'] : '' ?>&per_page=20">Next
+                            </a>&nbsp;
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
             </div>
         </div>
         <!-- /. PAGE INNER  -->

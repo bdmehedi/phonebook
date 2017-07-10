@@ -16,10 +16,10 @@ class Report
     }
 
     // for total numbers for specific user.
-    public static function getTotalNumber()
+    public static function getTotalNumber($user_id = null)
     {
         new Report();
-        $user = self::$_usrId;
+        $user = $user_id ? $user_id : self::$_usrId;
         $sql = "SELECT COUNT(number)as total FROM numbers where added_by = {$user}";
         $totalData = self::$_db->getAllWithSql($sql);
         return $totalData->firstResult()->total;

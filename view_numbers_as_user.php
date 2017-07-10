@@ -4,10 +4,14 @@ $user = new User();
 if (!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
+
 // this page just for admin.........
 if (!Permission::is('user')){
     Redirect::to('home.php');
 }
+
+// show maximum page number ....
+$max_page = 20;
 
 $db = DB::getInstance();
 // get All category...
@@ -28,10 +32,18 @@ if (isset($_REQUEST['category'])){
     }
 
     $user_id = Session::get(Config::get('session/session_name'));
-    $mobile_data = $db->getAllWithSql("SELECT * FROM numbers JOIN categories ON numbers.category_id = categories.id WHERE numbers.category_id = {$category_id} AND numbers.added_by = {$user_id}");
+
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $perPage = isset($_GET['per_page']) && $_GET['per_page'] <= 50 ? (int)$_GET['per_page'] : 50;
+    $start = ($page > 1) ? ($page * $perPage) - $perPage : 0;
+
+    $mobile_data = $db->getAllWithSql("SELECT * FROM numbers JOIN categories ON numbers.category_id = categories.id WHERE numbers.category_id = {$category_id} AND numbers.added_by = {$user_id} ORDER BY numbers.id DESC LIMIT {$start}, {$perPage}");
     if ($mobile_data->count()){
         $numbers_category_wise = $mobile_data->results();
     }
+
+    //get all page for numbers.
+    $pages = ceil($db->getPages('numbers', 'number', 'numbers.category_id = '.$category_id) / $perPage);
 }
 
 require_once "includes/home/header.php";
@@ -56,7 +68,7 @@ require_once "includes/home/header.php";
                         if (isset($categories)){
                             foreach ($categories as $category){
                                 ?>
-                                <option value='view_numbers_as_user.php?category=<?php echo $category->id;?>'><?php echo $category->category_name;?></option>
+                                <option value='view_numbers_as_user.php?category=<?php echo $category->id;?>&page=1&per_page=50'><?php echo $category->category_name;?></option>
                                 <?php
                             }
                         }
@@ -91,7 +103,7 @@ require_once "includes/home/header.php";
                     </tr>
                     <!--                    for category wise.........-->
                     <?php if (isset($numbers_category_wise)){
-                        $serial = 1;
+                        $serial = ($_GET['page'] > 1) ? ((int)$_GET['page'] * (int)$_GET['per_page']) - ((int)$_GET['per_page'] - 1) : 1;
                         foreach ($numbers_category_wise as $number){
                             ?>
                             <tr>
@@ -102,7 +114,64 @@ require_once "includes/home/header.php";
                             <?php $serial++; }} ?>
 
                 </table>
-                <span class="col-sm-2 col-sm-offset-10"></span>
+
+                <div class="col-md-12" style="text-align: right">
+                    <?php
+                    if (isset($pages)) {
+                        if ($pages > $max_page && $_GET['page'] > 1) {
+                            $previous_page = $_GET['page'] > 1 ? $_GET['page'] : '';
+                            ?>
+                            <a
+                                    href="<?php echo isset($_GET['all']) ? '?all=' . $_GET['all'] : '';
+                                    echo isset($_GET['category']) ? '?category=' . $_GET['category'] : '';
+                                    echo isset($_GET['user']) ? '?user=' . $_GET['user'] : ''; ?>&page=<?php echo --$previous_page; ?>&per_page=50">Previous
+                            </a>&nbsp;
+                            <?php
+                        }
+
+                        for ($page = 1; $page <= $pages; $page++) {
+                            if ($pages == 1) {
+                                break;
+                            }
+                            if ($pages < $max_page) {
+                                ?>
+                                <a
+                                    <?php echo $page == $_GET['page'] ? 'class="selected"' : '' ?>
+                                        href="<?php echo isset($_GET['all']) ? '?all=' . $_GET['all'] : '';
+                                        echo isset($_GET['category']) ? '?category=' . $_GET['category'] : '';
+                                        echo isset($_GET['user']) ? '?user=' . $_GET['user'] : ''; ?>&page=<?php echo $page ?>&per_page=50"><?php echo $page . ' ' ?>
+                                </a>&nbsp;
+                                <?php
+                            }
+
+                            if ($pages > $max_page) {
+                                if ($page > 10 && $page != $pages && $page != $pages - 1) {
+                                    continue;
+                                }
+                                if ($page == $pages - 1)
+                                    echo '....';
+                                ?>
+                                <a
+                                    <?php echo $page == $_GET['page'] ? 'class="selected"' : '' ?>
+                                        href="<?php echo isset($_GET['all']) ? '?all=' . $_GET['all'] : '';
+                                        echo isset($_GET['category']) ? '?category=' . $_GET['category'] : '';
+                                        echo isset($_GET['user']) ? '?user=' . $_GET['user'] : ''; ?>&page=<?php echo $page ?>&per_page=50"><?php echo $page . ' ' ?>
+                                </a>&nbsp;
+                                <?php
+                            }
+                        }
+                        if ($pages > $max_page && $_GET['page'] < $pages) {
+                            ?>
+                            <a
+                                    href="<?php echo isset($_GET['all']) ? '?all=' . $_GET['all'] : '';
+                                    echo isset($_GET['category']) ? '?category=' . $_GET['category'] : '';
+                                    echo isset($_GET['user']) ? '?user=' . $_GET['user'] : ''; ?>&page=<?php echo isset($_GET['page']) ? ++$_GET['page'] : '' ?>&per_page=50">Next
+                            </a>&nbsp;
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
             </div>
         </div>
         <!-- /. PAGE INNER  -->
