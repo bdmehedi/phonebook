@@ -9,10 +9,12 @@
     <link href="assets/home/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/home/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
     <link href="assets/home/css/custom.css" rel="stylesheet" />
+    <link href="assets/css/select2.min.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
 <!--   for pagination div style... -->
     <style>
+        .star{color: red}
         .selected {font-weight: bold; color: #8702A8}
         .pagination_div ul{}
         .pagination_div ul li{list-style: none; display: inline-block}

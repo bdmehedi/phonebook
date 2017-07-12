@@ -108,7 +108,6 @@ $(document).ready(function () {
     });
 
     // for Category selecting .............
-
     $('#category_btn').on('click', function () {
         $('#success_div').fadeOut();
         $('#error_div').fadeOut();
@@ -157,12 +156,10 @@ $(document).ready(function () {
                    $('#today').text(data.today);
                }
                if (data.total){
-                   console.log(data.total);
-
+                   // console.log(data.total);
                }
                if (data.today){
-
-                   console.log(data.today);
+                   // console.log(data.today);
                }
            }
        });

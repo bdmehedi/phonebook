@@ -20,6 +20,9 @@
                     <a  href="add_category.php"><i class="fa fa-sitemap fa-2x"></i>Add Category</a>
                 </li>
                 <li  >
+                    <a  href="view_category.php"><i class="fa fa-sitemap fa-2x"></i>View Category</a>
+                </li>
+                <li  >
                     <a  href="view_numbers.php"><i class="fa fa-sitemap fa-2x"></i>View Mobile Number</a>
                 </li>
             <?php } ?>

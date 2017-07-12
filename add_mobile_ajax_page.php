@@ -17,7 +17,7 @@ if (Input::exists()){
         ));
 
         if ($validate->passed()){
-            //$jsonData['result'] = 'validate passed !';
+            $category_id = Input::get('category');
             $db = DB::getInstance();
             // mobile unique check...
             $mobile = Input::get('mobile');
@@ -25,16 +25,36 @@ if (Input::exists()){
             $getMobile = $db->getAllWithSql($sql);
             if (!$getMobile->count()){
                 $insert_mobile = $db->insert('numbers', array(
-                    'category_id' => Input::get('category'),
-                    'number' => Input::get('mobile'),
+                    'category_id' => $category_id,
+                    'number' => $mobile,
                     'added_by' => Input::get('added_by'),
                     'created_at' => date('Y-m-d H:m:s'),
                 ));
                 if ($insert_mobile){
+                    // get user first name....
+                    $user_name = Report::getUserNameById();
+                    $user_name = explode(' ', $user_name);
+                    $user_name = $user_name[0];
+
+                    // usr mobile for sending..
+                    $user_mobile = Report::getUserMobileById();
+                    $sender_address = "{$user_name}%0ACell: {$user_mobile}, 01814445932, 029675671%0Awww.iglweb.com%0AIGL Web Ltd.";
+
+                    // category sms for sending..
+                    $sms = Report::getCategorySmsById($category_id).'%0A'.$sender_address;
+                    $explod_sms = explode(' ', $sms);
+                    $sms = implode('%20', $explod_sms);
+
+                    // sender id .......
+                    $sender = Report::getCategorySmsSenderById($category_id);
+
+                    $sms_url = ""; // sms api in here ..........................
                     $jsonData['result'] = 'Number successfully added !';
                     $jsonData['total'] = Report::getTotalNumber();
                     $jsonData['today'] = Report::getTotalTodayNumber();
                     $jsonData['success'] = true;
+                    file_get_contents($sms_url);
+
                 }else {
                     $jsonData['result'] = 'Opps, Something going wrong !';
                 }

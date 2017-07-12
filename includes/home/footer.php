@@ -5,5 +5,10 @@
 <script src="assets/home/js/morris/morris.js"></script>
 <script src="assets/home/js/custom.js"></script>
 <script src="assets/js/ajax_file.js"></script>
+<script src="assets/js/select2.js"></script>
+
+<script>
+$("select").select2();
+</script>
 </body>
 </html>

@@ -113,7 +113,7 @@ class DB
             return $this;
         }
 
-        return $sql;
+        return false;
     }
 
     public function getJoin_2_TableData($tableToJoin, $tableWithJoin, $where, $joinValue1 = null, $joinValue2 = null, $order = null)
@@ -184,7 +184,7 @@ class DB
         if(!$this->query($sql, $fields)->error()){
             return true;
         }
-        return false;
+        return $sql;
     }
 
     public function results()

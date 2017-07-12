@@ -130,7 +130,7 @@ require_once "includes/home/header.php";
                         if (isset($users)){
                             foreach ($users as $user){
                                 ?>
-                                <option value='view_numbers.php?user=<?php echo $user->id;?>&page=1&per_page=50'><?php echo $user->user_name. ' ('. $user->name. ') ';?></option>
+                                <option value='view_numbers.php?user=<?php echo $user->id;?>&page=1&per_page=50'><?php echo $user->name. ' ('. $user->user_name. ') ';?></option>
                                 <?php
                             }
                         }

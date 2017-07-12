@@ -8,6 +8,11 @@ if (!$user->isLoggedIn()){
 if (!Permission::is('admin')){
     Redirect::to('home.php');
 }
+// for getting ....
+if (isset($_GET['category'])){
+    $category_id = $_GET['category'];
+    $category_details = Report::getCategoryById($category_id);
+}
 
 // get all category.....
 $db = DB::getInstance();
@@ -19,23 +24,16 @@ if (Input::exists()){
     if (Token::check(Input::get('token'))){
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
-            'category_name' => array('required' => true),
             'sms' => array('max' => 100),
         ));
 
         if ($validate->passed()){
             $db = DB::getInstance();
             try{
-                $category = '"'.Input::get('category_name').'"';
-                // unique check.....
-                $sql = "SELECT * FROM `categories` WHERE category_name = {$category}";
-                $categoryData = $db->getAllWithSql($sql);
-                if ($categoryData->count()){
-                    throw new Exception('Opps, Category already exist !');
-                }
-                 $insert_category = $db->insert('categories', array('category_name' => Input::get('category_name'), 'message' => Input::get('sms'), 'sender_id' => Input::get('sender_id'), 'created_at' => date('Y-m-d H:m:s')));
-                if ($insert_category){
-                    Session::flash('home', 'Category successfully added !');
+                $update_categorys_sms = $db->update('categories', isset($category_id) ? $category_id : '', array('message' => Input::get('sms'), 'sender_id' => Input::get('sender_id')));
+                if ($update_categorys_sms){
+                    Session::flash('home', 'Category message successfully updated !');
+                    Redirect::to('view_category.php');
                 }else {
                     throw new Exception('Something going wrong !');
                 }
@@ -63,45 +61,44 @@ require_once "includes/home/header.php";
     <div id="page-wrapper" >
         <div class="panel col-sm-12" style="margin-top: 15px; margin-bottom: 15px;">
             <div class="page-header">
-                <h1 class="text-center text-temp">Add Category</h1>
+                <h1 class="text-center text-temp">Edit Category Message</h1>
             </div>
             <div class="panel-body">
-                <form action="add_category.php" method="post">
+                <form action="edit_category.php?category=<?php echo $category_id?>" method="post">
                     <div class="row">
                         <div class="col-sm-6">
                             <?php
-                                if (isset($validate)){
-                                    foreach ($validate->errors() as $error) {
-                                        echo "<p style='color: red'>$error</p>";
-                                    }
+                            if (isset($validate)){
+                                foreach ($validate->errors() as $error) {
+                                    echo "<p style='color: red'>$error</p>";
                                 }
-                                if (isset($token_error)){
-                                    echo "<p style='color: red'>Token not match</p>";
-                                }
-                                if (isset($errors)){
-                                    echo "<p style='color: red'>$errors</p>";
-                                }
-                                if (Session::exists('home')){
-                                    echo "<p style='color: green'>". Session::get('home') ."</p>";
-                                    Session::delete('home');
-                                }
+                            }
+                            if (isset($token_error)){
+                                echo "<p style='color: red'>Token not match</p>";
+                            }
+                            if (isset($errors)){
+                                echo "<p style='color: red'>$errors</p>";
+                            }
+                            if (Session::exists('home')){
+                                echo "<p style='color: green'>". Session::get('home') ."</p>";
+                                Session::delete('home');
+                            }
                             ?>
                             <div class="form-group">
-                                <label class="" for="name">Category Name <span class="star">*</span></label>
-                                <div class="">
-                                    <input value="<?php echo Input::get('category_name')?>" class="form-control" type="text" name="category_name" id="name" placeholder="Category Name">
-                                </div>
+                                <p>Category Name :  <span style="font-weight: bold"><?php echo isset($category_details) ? $category_details->category_name : ''?></span></p>
                             </div>
+
                             <div class="form-group">
                                 <label class="" for="sender_id">Sender ID</label>
                                 <div class="">
-                                    <input value="<?php echo Input::get('category_name')?>" class="form-control" type="text" name="sender_id" id="sender_id" placeholder="SMS Sender Id">
+                                    <input value="<?php echo isset($category_details) ? $category_details->sender_id : ''?>" class="form-control" type="text" name="sender_id" id="sender_id" placeholder="SMS Sender Id">
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label class="" for="sms">Category Message <span class="sms_char">Maximum 75 Character:</span></label>
                                 <div class="">
-                                    <textarea rows="4" class="form-control" maxlength="75" name="sms" id="sms" placeholder="Category Message"><?php echo Input::get('sms')?></textarea>
+                                    <textarea rows="4" class="form-control" maxlength="75" name="sms" id="sms" placeholder="Category Message"><?php echo isset($category_details) ? $category_details->message : ''?></textarea>
                                 </div>
                             </div>
                             <input type="hidden" name="token" value="<?php echo Token::generate();?>">

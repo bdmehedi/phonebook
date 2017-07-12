@@ -52,4 +52,60 @@ class Report
         return $totalData->firstResult()->total;
     }
 
+    // for total numbers for specific user.
+    public static function getCategoryById($category_id = null)
+    {
+        new Report();
+        $sql = "SELECT * FROM `categories` WHERE id = {$category_id}";
+        $totalData = self::$_db->getAllWithSql($sql);
+        if ($totalData){
+            return $totalData->firstResult();
+        }
+        return false;
+    }
+
+    // get category sms with id.....
+    public static function getCategorySmsById($category_id = null)
+    {
+        new Report();
+        $sql = "SELECT * FROM `categories` WHERE id = {$category_id}";
+        $totalData = self::$_db->getAllWithSql($sql);
+        if ($totalData){
+            return $totalData->firstResult()->message;
+        }
+        return false;
+    }
+
+    // get category sms sender ID with id.....
+    public static function getCategorySmsSenderById($category_id = null)
+    {
+        new Report();
+        $sql = "SELECT * FROM `categories` WHERE id = {$category_id}";
+        $totalData = self::$_db->getAllWithSql($sql);
+        if ($totalData){
+            return $totalData->firstResult()->sender_id;
+        }
+        return false;
+    }
+
+    // get user mobile with id.....
+    public static function getUserMobileById($user_id = null)
+    {
+        new Report();
+        $user = $user_id ? $user_id : self::$_usrId;
+        $sql = "SELECT * FROM users where id = {$user}";
+        $totalData = self::$_db->getAllWithSql($sql);
+        return $totalData->firstResult()->mobile;
+    }
+
+    // get user Name with id.....
+    public static function getUserNameById($user_id = null)
+    {
+        new Report();
+        $user = $user_id ? $user_id : self::$_usrId;
+        $sql = "SELECT * FROM users where id = {$user}";
+        $totalData = self::$_db->getAllWithSql($sql);
+        return $totalData->firstResult()->name;
+    }
+
 }

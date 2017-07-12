@@ -53,7 +53,8 @@ require_once "includes/home/header.php";
                         <th>Added</th>
                     </tr>
                     <?php if (isset($users)){
-                        $serial = ($_GET['page'] > 1) ? ((int)$_GET['page'] * (int)$_GET['per_page']) - ((int)$_GET['per_page'] - 1) : 1;
+                        $_page = isset($_GET['page']) ? $_GET['page'] : 1;
+                        $serial = ($_page > 1) ? ((int)$_page * (int)$_page) - ((int)$_page - 1) : 1;
                         foreach ($users as $user){
                     ?>
                             <tr>
